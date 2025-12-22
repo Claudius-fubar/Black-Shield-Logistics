@@ -1,5 +1,6 @@
 <?php
 session_start();
+include 'session_control.php';
 include 'db.php';
 
 $user_permission = 0;

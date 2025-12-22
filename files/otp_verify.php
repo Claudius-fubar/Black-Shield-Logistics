@@ -1,5 +1,6 @@
 <?php
 session_start();
+include 'session_control.php';
 require_once 'db.php';
 
 $error = '';
