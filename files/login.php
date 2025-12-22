@@ -50,28 +50,33 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 ?>
 <!DOCTYPE html>
 <html lang="ro">
+
 <head>
     <meta charset="UTF-8">
     <title>Login - Black Shield</title>
     <link rel="stylesheet" href="style.css?v=clean">
+    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
 </head>
+
 <body>
-<div class="center-wrapper">
-  <div class="login-box">
-    <h2>Login</h2>
+    <div class="center-wrapper">
+        <div class="login-box">
+            <h2>Login</h2>
 
-    <?php if ($error): ?>
-      <p style="color:red;"><?php echo htmlspecialchars($error); ?></p>
-    <?php endif; ?>
+            <?php if ($error): ?>
+                <p style="color:red;"><?php echo htmlspecialchars($error); ?></p>
+            <?php endif; ?>
 
-    <form method="post" novalidate>
-      <input type="email" name="email" placeholder="Email" required><br><br>
-      <input type="password" name="password" placeholder="Parola" required><br><br>
-      <button type="submit" class="btn">Login</button>
-    </form>
+            <form method="post" novalidate>
+                <input type="email" name="email" placeholder="Email" required><br><br>
+                <input type="password" name="password" placeholder="Parola" required><br><br>
+                <div class="g-recaptcha" data-sitekey="6LdfoDMsAAAAAJFAHp72HMez5ZmPXfCJuZJ1JIwa"></div>
+                <input type="submit" class="btn" value="login">
+            </form>
 
-    <p>Nu ai cont? <a href="register.php">Înregistrează-te</a></p>
-  </div>
-</div>
+            <p>Nu ai cont? <a href="register.php">Înregistrează-te</a></p>
+        </div>
+    </div>
 </body>
+
 </html>

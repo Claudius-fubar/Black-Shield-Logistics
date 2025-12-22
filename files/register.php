@@ -158,6 +158,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <!DOCTYPE html>
 <html lang="ro">
 <head>
+<script src="https://www.google.com/recaptcha/api.js" async defer></script>
 <meta charset="utf-8">
 <title>Register - Black Shield Logistics</title>
 <link rel="stylesheet" href="style.css?v=register-clean">
@@ -176,6 +177,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
       <input type="text" name="last_name" placeholder="Prenume" required value="<?php echo isset($_POST['last_name']) ? htmlspecialchars($_POST['last_name']) : ''; ?>"><br><br>
       <input type="email" name="email" placeholder="Email" required value="<?php echo isset($_POST['email']) ? htmlspecialchars($_POST['email']) : ''; ?>"><br><br>
       <input type="text" name="phone" placeholder="Număr de telefon" value="<?php echo isset($_POST['phone']) ? htmlspecialchars($_POST['phone']) : ''; ?>"><br><br>
+      <div class="g-recaptcha" data-sitekey="6LdfoDMsAAAAAJFAHp72HMez5ZmPXfCJuZJ1JIwa"></div>
 
       <input type="password" name="password" placeholder="Parolă" required><br><br>
       <input type="password" name="confirm_password" placeholder="Confirmă parola" required><br><br>
