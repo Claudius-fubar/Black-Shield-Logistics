@@ -56,6 +56,11 @@ body {
     display: inline-block;
 }
 
+.g-recaptcha {
+    display: flex;
+    justify-content: space-evenly;
+}
+
 .dropbtn {
     padding: 0.6rem 1.2rem;
     background: #1a2233;
@@ -136,6 +141,7 @@ body {
     background: #27314f;
     box-shadow: 0 6px 12px rgba(0, 0, 0, 0.5);
 }
+
 .center-wrapper {
     min-height: 100vh;
     display: flex;
