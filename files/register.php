@@ -1,6 +1,7 @@
 <?php
 // register.php - înregistrare cu trimitere OTP prin PHPMailer
 session_start();
+include 'session_control.php';
 
 // DEV: afișează erori temporar - elimină/ setează la 0 în producție
 ini_set('display_errors', 1);

@@ -1,5 +1,6 @@
 <?php
 session_start();
+include 'session_control.php';
 include 'db.php';
 
 // verifică dacă utilizatorul e logat și e admin

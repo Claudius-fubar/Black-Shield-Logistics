@@ -1,5 +1,6 @@
 <?php
 session_start();
+include 'session_control.php';
 include 'db.php';
 
 if(!isset($_SESSION['user_id'])){
