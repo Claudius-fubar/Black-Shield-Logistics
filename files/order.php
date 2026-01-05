@@ -44,58 +44,64 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         
         // Salvează comanda în baza de date
         $stmt = $conn->prepare("INSERT INTO transport_orders (user_id, pickup_location, delivery_location, cargo_type, cargo_weight, security_level, pickup_date, special_requirements, status, created_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?, 'pending', NOW())");
-        $stmt->bind_param("isssdsss", $user_id, $pickup_location, $delivery_location, $cargo_type, $cargo_weight, $security_level, $pickup_date, $special_requirements);
         
-        if ($stmt->execute()) {
-            $order_id = $conn->insert_id;
-            
-            // Trimite email către admin
-            require_once 'mailer.php';
-            
-            $admin_email = 'admin@blackshieldlogistics.com';
-            $email_subject = "Comandă nouă de transport #$order_id";
-            $email_body = "
-                <h2>Comandă nouă de transport</h2>
-                <p><strong>Comandă ID:</strong> #$order_id</p>
-                <p><strong>Client:</strong> $user_name ($user_email)</p>
-                <hr>
-                <p><strong>Locație preluare:</strong> $pickup_location</p>
-                <p><strong>Locație livrare:</strong> $delivery_location</p>
-                <p><strong>Tip marfă:</strong> $cargo_type</p>
-                <p><strong>Greutate:</strong> $cargo_weight kg</p>
-                <p><strong>Nivel securitate:</strong> $security_level</p>
-                <p><strong>Data preluare:</strong> $pickup_date</p>
-                <p><strong>Cerințe speciale:</strong> " . nl2br(htmlspecialchars($special_requirements)) . "</p>
-            ";
-            
-            send_mail_smtp($admin_email, $email_subject, $email_body);
-            
-            // Trimite email de confirmare către client
-            $client_subject = "Confirmare comandă transport #$order_id";
-            $client_body = "
-                <h2>Bună ziua, $user_name!</h2>
-                <p>Vă mulțumim pentru comandă. Cererea dumneavoastră de transport a fost înregistrată cu succes.</p>
-                <p><strong>Număr comandă:</strong> #$order_id</p>
-                <p><strong>Status:</strong> În așteptare (pending)</p>
-                <hr>
-                <h3>Detalii comandă:</h3>
-                <p><strong>Preluare din:</strong> $pickup_location</p>
-                <p><strong>Livrare la:</strong> $delivery_location</p>
-                <p><strong>Data preluare:</strong> $pickup_date</p>
-                <p><strong>Tip marfă:</strong> $cargo_type</p>
-                <p><strong>Greutate:</strong> $cargo_weight kg</p>
-                <p><strong>Nivel securitate:</strong> $security_level</p>
-                <hr>
-                <p>Echipa noastră va analiza cererea și vă va contacta în cel mai scurt timp cu o ofertă detaliată.</p>
-                <p>Cu stimă,<br>Echipa Black Shield Logistics</p>
-            ";
-            
-            send_mail_smtp($user_email, $client_subject, $client_body);
-            
-            $success = true;
-            $message = "Comanda a fost înregistrată cu succes! Număr comandă: #$order_id. Veți primi un email de confirmare.";
+        if (!$stmt) {
+            $message = "Eroare sistem (SQL Prepare): " . $conn->error . ". Posibil tabelul 'transport_orders' lipsește. Rulați install_features.php.";
         } else {
-            $message = "Eroare la înregistrarea comenzii. Vă rugăm încercați din nou.";
+            $stmt->bind_param("isssdsss", $user_id, $pickup_location, $delivery_location, $cargo_type, $cargo_weight, $security_level, $pickup_date, $special_requirements);
+            
+            if ($stmt->execute()) {
+                $order_id = $conn->insert_id;
+                
+                // Trimite email către admin
+                require_once 'mailer.php';
+                
+                $admin_email = 'admin@blackshieldlogistics.com';
+                $email_subject = "Comandă nouă de transport #$order_id";
+                $email_body = "
+                    <h2>Comandă nouă de transport</h2>
+                    <p><strong>Comandă ID:</strong> #$order_id</p>
+                    <p><strong>Client:</strong> $user_name ($user_email)</p>
+                    <hr>
+                    <p><strong>Locație preluare:</strong> $pickup_location</p>
+                    <p><strong>Locație livrare:</strong> $delivery_location</p>
+                    <p><strong>Tip marfă:</strong> $cargo_type</p>
+                    <p><strong>Greutate:</strong> $cargo_weight kg</p>
+                    <p><strong>Nivel securitate:</strong> $security_level</p>
+                    <p><strong>Data preluare:</strong> $pickup_date</p>
+                    <p><strong>Cerințe speciale:</strong> " . nl2br(htmlspecialchars($special_requirements)) . "</p>
+                ";
+                
+                send_mail_smtp($admin_email, $email_subject, $email_body);
+                
+                // Trimite email de confirmare către client
+                $client_subject = "Confirmare comandă transport #$order_id";
+                $client_body = "
+                    <h2>Bună ziua, $user_name!</h2>
+                    <p>Vă mulțumim pentru comandă. Cererea dumneavoastră de transport a fost înregistrată cu succes.</p>
+                    <p><strong>Număr comandă:</strong> #$order_id</p>
+                    <p><strong>Status:</strong> În așteptare (pending)</p>
+                    <hr>
+                    <h3>Detalii comandă:</h3>
+                    <p><strong>Preluare din:</strong> $pickup_location</p>
+                    <p><strong>Livrare la:</strong> $delivery_location</p>
+                    <p><strong>Data preluare:</strong> $pickup_date</p>
+                    <p><strong>Tip marfă:</strong> $cargo_type</p>
+                    <p><strong>Greutate:</strong> $cargo_weight kg</p>
+                    <p><strong>Nivel securitate:</strong> $security_level</p>
+                    <hr>
+                    <p>Echipa noastră va analiza cererea și vă va contacta în cel mai scurt timp cu o ofertă detaliată.</p>
+                    <p>Cu stimă,<br>Echipa Black Shield Logistics</p>
+                ";
+                
+                send_mail_smtp($user_email, $client_subject, $client_body);
+                
+                $success = true;
+                $message = "Comanda a fost înregistrată cu succes! Număr comandă: #$order_id. Veți primi un email de confirmare.";
+            } else {
+                $message = "Eroare la înregistrarea comenzii: " . $stmt->error;
+            }
+            $stmt->close();
         }
     } else {
         $message = "Toate câmpurile marcate cu * sunt obligatorii.";
