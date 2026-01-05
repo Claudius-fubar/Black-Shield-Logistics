@@ -40,7 +40,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['promote_user_id'])) {
 // CRUD: Read - afișare utilizatori
 $users_result = $conn->query("SELECT u.id, u.first_name, u.last_name, u.email, u.phone, u.permission_id, p.permission_name 
                               FROM users u 
-                              JOIN user_permissions p ON u.permission_id = p.id");
+                              LEFT JOIN user_permissions p ON u.permission_id = p.id");
+
+if (!$users_result) {
+    // Fallback if table user_permissions doesn't exist or other error
+    $users_result = $conn->query("SELECT u.id, u.first_name, u.last_name, u.email, u.phone, u.permission_id, 'Unknown' as permission_name 
+                                  FROM users u");
+}
+
+$roles_map = [
+    1 => 'Client',
+    2 => 'Sender',
+    3 => 'Admin'
+];
 ?>
 <!DOCTYPE html>
 <html lang="ro">
@@ -112,14 +124,21 @@ $users_result = $conn->query("SELECT u.id, u.first_name, u.last_name, u.email, u
             <th>Permisiune</th>
             <th>Acțiuni</th>
         </tr>
-        <?php while($user = $users_result->fetch_assoc()): ?>
+        <?php 
+        if ($users_result && $users_result->num_rows > 0):
+            while($user = $users_result->fetch_assoc()): 
+                $perm_name = $user['permission_name'];
+                if (empty($perm_name) || $perm_name === 'Unknown') {
+                    $perm_name = $roles_map[$user['permission_id']] ?? 'Unknown (' . $user['permission_id'] . ')';
+                }
+        ?>
         <tr>
             <td><?php echo $user['id']; ?></td>
             <td><?php echo htmlspecialchars($user['first_name']); ?></td>
             <td><?php echo htmlspecialchars($user['last_name']); ?></td>
             <td><?php echo htmlspecialchars($user['email']); ?></td>
             <td><?php echo htmlspecialchars($user['phone']); ?></td>
-            <td><?php echo htmlspecialchars($user['permission_name']); ?></td>
+            <td><?php echo htmlspecialchars($perm_name); ?></td>
             <td>
                 <?php if($user['permission_id'] != 3): ?>
                     <form method="POST" style="display:inline;">
@@ -131,7 +150,14 @@ $users_result = $conn->query("SELECT u.id, u.first_name, u.last_name, u.email, u
                 <?php endif; ?>
             </td>
         </tr>
-        <?php endwhile; ?>
+        <?php 
+            endwhile; 
+        else:
+        ?>
+        <tr>
+            <td colspan="7" style="text-align:center;">Nu există utilizatori înregistrați.</td>
+        </tr>
+        <?php endif; ?>
     </table>
 </div>
 </body>
