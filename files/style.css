@@ -110,6 +110,8 @@ body {
 .main-content {
     padding: 3rem 2rem;
     text-align: center;
+    max-width: 1200px;
+    margin: 0 auto;
 }
 
 .main-content h2 {
@@ -117,9 +119,40 @@ body {
     margin-bottom: 1rem;
 }
 
+.main-content h3 {
+    font-size: 1.5rem;
+    margin-top: 2rem;
+    color: #4CAF50;
+}
+
 .main-content p {
     font-size: 1.1rem;
     color: #cfd8e3;
+}
+
+.main-content ul {
+    text-align: left;
+    max-width: 800px;
+    margin: 20px auto;
+    background: #0a0f1c;
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+.main-content ul li {
+    margin: 15px 0;
+}
+
+.main-content a {
+    color: #4CAF50;
+    text-decoration: none;
+    transition: color 0.2s;
+}
+
+.main-content a:hover {
+    color: #66BB6A;
+    text-decoration: underline;
 }
 
 /* Button principal */
