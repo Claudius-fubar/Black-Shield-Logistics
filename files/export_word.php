@@ -18,7 +18,7 @@ if ($row['permission_id'] < 2) {
 
 require_once 'pdf_generator.php';
 
-$query = "SELECT o.id, u.username, o.pickup_location, o.delivery_location, o.cargo_type, 
+$query = "SELECT o.id, u.first_name, u.last_name, o.pickup_location, o.delivery_location, o.cargo_type, 
           o.cargo_weight, o.security_level, o.pickup_date, o.status, o.estimated_price, o.created_at
           FROM transport_orders o 
           JOIN users u ON o.user_id = u.id 

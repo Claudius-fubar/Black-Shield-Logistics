@@ -86,7 +86,7 @@
         <h3>2.5 Descriere succintă a bazei de date</h3>
         <p>Baza de date va fi relațională (ex: MySQL) și va include tabele precum:</p>
         <ul>
-            <li><strong>users</strong>(id, username, parola_hash, rol, email, data_creare)</li>
+            <li><strong>users</strong>(id, first_name, last_name, parola_hash, rol, email, data_creare)</li>
             <li><strong>client_profiles</strong>(id, user_id, nume_companie, cui, adresa, persoana_contact)</li>
             <li><strong>services</strong>(id, nume, descriere, nivel_securitate)</li>
             <li><strong>vehicles</strong>(id, cod, tip, capacitate, nivel_protectie, disponibil)</li>

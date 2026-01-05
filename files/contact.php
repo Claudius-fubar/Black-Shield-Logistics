@@ -13,11 +13,11 @@ $user_email = '';
 $user_name = '';
 if(isset($_SESSION['user_id'])){
     $id = $_SESSION['user_id'];
-    $result = $conn->query("SELECT permission_id, email, username FROM users WHERE id = $id");
+    $result = $conn->query("SELECT permission_id, email, first_name, last_name FROM users WHERE id = $id");
     if($row = $result->fetch_assoc()){
         $user_permission = $row['permission_id'];
         $user_email = $row['email'];
-        $user_name = $row['username'];
+        $user_name = $row['first_name'] . ' ' . $row['last_name'];
     }
 }
 
