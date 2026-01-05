@@ -43,7 +43,36 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         !empty($cargo_weight) && !empty($security_level) && !empty($pickup_date)) {
         
         // Salvează comanda în baza de date
-        $stmt = $conn->prepare("INSERT INTO transport_orders (user_id, pickup_location, delivery_location, cargo_type, cargo_weight, security_level, pickup_date, special_requirements, status, created_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?, 'pending', NOW())");
+        $sql_insert = "INSERT INTO transport_orders (user_id, pickup_location, delivery_location, cargo_type, cargo_weight, security_level, pickup_date, special_requirements, status, created_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?, 'pending', NOW())";
+        $stmt = $conn->prepare($sql_insert);
+        
+        // Auto-repair: Dacă tabelul nu există, încearcă să îl creezi
+        if (!$stmt && strpos($conn->error, "doesn't exist") !== false) {
+            $create_table_sql = "CREATE TABLE IF NOT EXISTS transport_orders (
+                id INT AUTO_INCREMENT PRIMARY KEY,
+                user_id INT NOT NULL,
+                pickup_location VARCHAR(255) NOT NULL,
+                delivery_location VARCHAR(255) NOT NULL,
+                cargo_type VARCHAR(100) NOT NULL,
+                cargo_weight DECIMAL(10,2) NOT NULL,
+                security_level VARCHAR(50) NOT NULL,
+                pickup_date DATE NOT NULL,
+                special_requirements TEXT,
+                status ENUM('pending', 'approved', 'in_progress', 'completed', 'cancelled') DEFAULT 'pending',
+                estimated_price DECIMAL(10,2),
+                assigned_vehicle VARCHAR(100),
+                created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+                updated_at DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+                INDEX idx_user (user_id),
+                INDEX idx_status (status),
+                INDEX idx_pickup_date (pickup_date)
+            ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4";
+            
+            if ($conn->query($create_table_sql)) {
+                // Încearcă din nou prepare după creare
+                $stmt = $conn->prepare($sql_insert);
+            }
+        }
         
         if (!$stmt) {
             $message = "Eroare sistem (SQL Prepare): " . $conn->error . ". Posibil tabelul 'transport_orders' lipsește. Rulați install_features.php.";
