@@ -1,4 +1,9 @@
 <?php
+// Enable error reporting for debugging
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+
 session_start();
 include 'session_control.php';
 include 'db.php';
@@ -28,7 +33,17 @@ $general_stats = $conn->query("SELECT
     SUM(CASE WHEN status = 'cancelled' THEN 1 ELSE 0 END) as cancelled
     FROM transport_orders");
 
-$stats['general'] = $general_stats->fetch_assoc();
+if ($general_stats) {
+    $stats['general'] = $general_stats->fetch_assoc();
+} else {
+    $stats['general'] = [
+        'total_orders' => 0,
+        'completed' => 0,
+        'pending' => 0,
+        'in_progress' => 0,
+        'cancelled' => 0
+    ];
+}
 
 // Comenzi pe lună (ultimele 6 luni)
 $monthly_stats = $conn->query("SELECT 
@@ -40,8 +55,10 @@ $monthly_stats = $conn->query("SELECT
     ORDER BY month ASC");
 
 $stats['monthly'] = [];
-while ($row = $monthly_stats->fetch_assoc()) {
-    $stats['monthly'][] = $row;
+if ($monthly_stats) {
+    while ($row = $monthly_stats->fetch_assoc()) {
+        $stats['monthly'][] = $row;
+    }
 }
 
 // Distribuție pe tip de marfă
@@ -54,8 +71,10 @@ $cargo_stats = $conn->query("SELECT
     LIMIT 5");
 
 $stats['cargo'] = [];
-while ($row = $cargo_stats->fetch_assoc()) {
-    $stats['cargo'][] = $row;
+if ($cargo_stats) {
+    while ($row = $cargo_stats->fetch_assoc()) {
+        $stats['cargo'][] = $row;
+    }
 }
 
 // Distribuție pe nivel de securitate
@@ -67,8 +86,10 @@ $security_stats = $conn->query("SELECT
     ORDER BY count DESC");
 
 $stats['security'] = [];
-while ($row = $security_stats->fetch_assoc()) {
-    $stats['security'][] = $row;
+if ($security_stats) {
+    while ($row = $security_stats->fetch_assoc()) {
+        $stats['security'][] = $row;
+    }
 }
 ?>
 <!DOCTYPE html>
