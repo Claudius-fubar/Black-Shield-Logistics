@@ -25,9 +25,9 @@ if(isset($_SESSION['user_id'])){
         <h1>Black Shield Logistics</h1>
     </div>
     <div class="nav-center">
-        <a href="#" class="nav-btn">Acasă</a>
-        <a href="#" class="nav-btn">Servicii</a>
-        <a href="#" class="nav-btn">Contact</a>
+        <a href="index.php" class="nav-btn">Acasă</a>
+        <a href="servicii.php" class="nav-btn">Servicii</a>
+        <a href="contact.php" class="nav-btn">Contact</a>
         <?php if($user_permission == 3): ?>
             <a href="users.php" class="nav-btn">Administrare utilizatori</a>
         <?php endif; ?>
