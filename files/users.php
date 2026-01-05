@@ -114,7 +114,7 @@ $roles_map = [
         <div class="alert alert-error"><?php echo htmlspecialchars($error); ?></div>
     <?php endif; ?>
 
-    <table border="1" cellpadding="10" cellspacing="0" style="width: 100%; border-collapse: collapse; background: white;">
+    <table border="1" cellpadding="10" cellspacing="0" style="width: 100%; border-collapse: collapse; background: white; color: black;">
         <tr style="background: #f2f2f2;">
             <th>ID</th>
             <th>Nume</th>
