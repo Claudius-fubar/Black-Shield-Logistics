@@ -178,6 +178,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             border-radius: 4px;
             margin-bottom: 20px;
             border-left: 4px solid #2196F3;
+            color: steelblue;
         }
         @media (max-width: 768px) {
             .form-row {

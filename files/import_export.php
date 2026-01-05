@@ -283,7 +283,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_FILES['import_file'])) {
     <!-- Export Section -->
     <div class="section-card">
         <h3>📤 Export Date</h3>
-        <p>Descărcați datele din aplicație în diferite formate:</p>
+        <p style="color: black">Descărcați datele din aplicație în diferite formate:</p>
         
         <div class="export-buttons">
             <a href="import_export.php?export=excel" class="export-btn excel">
@@ -308,7 +308,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_FILES['import_file'])) {
     </div>
     
     <!-- Import Section -->
-    <div class="section-card">
+    <div class="section-card" style="color: black">
         <h3>📥 Import Date</h3>
         <p>Încărcați date din fișiere externe (CSV, Excel):</p>
         
