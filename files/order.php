@@ -1,4 +1,9 @@
 <?php
+// Enable error reporting for debugging
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+
 session_start();
 include 'session_control.php';
 include 'db.php';
@@ -15,7 +20,7 @@ $user_email = '';
 $user_name = '';
 
 $result = $conn->query("SELECT permission_id, email, first_name, last_name FROM users WHERE id = $user_id");
-if($row = $result->fetch_assoc()){
+if($result && $row = $result->fetch_assoc()){
     $user_permission = $row['permission_id'];
     $user_email = $row['email'];
     $user_name = $row['first_name'] . ' ' . $row['last_name'];
@@ -139,6 +144,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             border-radius: 4px;
             font-size: 14px;
             box-sizing: border-box;
+            color: #333;
+            background-color: #fff;
         }
         .form-group textarea {
             min-height: 100px;
