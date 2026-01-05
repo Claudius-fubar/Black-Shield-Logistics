@@ -1,4 +1,9 @@
 <?php
+// Enable error reporting for debugging
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+
 session_start();
 include 'session_control.php';
 include 'db.php';
@@ -110,6 +115,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             border-radius: 4px;
             font-size: 14px;
             box-sizing: border-box;
+            background-color: #fff;
+            color: #333;
         }
         .form-group textarea {
             min-height: 150px;

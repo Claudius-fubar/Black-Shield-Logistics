@@ -41,6 +41,7 @@ $weather = get_weather_data('Bucharest');
             border-radius: 8px;
             padding: 20px;
             box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            color: #333;
         }
         .content-card h3 {
             margin-top: 0;
@@ -176,7 +177,7 @@ $weather = get_weather_data('Bucharest');
         </div>
     </div>
 
-    <div style="margin-top: 30px; padding: 15px; background: #f9f9f9; border-radius: 8px;">
+    <div style="margin-top: 30px; padding: 15px; background: #f9f9f9; border-radius: 8px; color: #333;">
         <h4>ℹ️ Despre datele afișate:</h4>
         <ul>
             <li><strong>Știri</strong> - Parsate din RSS feed-uri publice despre securitate IT</li>
