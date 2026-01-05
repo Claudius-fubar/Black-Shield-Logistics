@@ -25,9 +25,16 @@ if(isset($_SESSION['user_id'])){
         <h1>Black Shield Logistics</h1>
     </div>
     <div class="nav-center">
-        <a href="#" class="nav-btn">Acasă</a>
-        <a href="#" class="nav-btn">Servicii</a>
-        <a href="#" class="nav-btn">Contact</a>
+        <a href="index.php" class="nav-btn">Acasă</a>
+        <a href="news.php" class="nav-btn">Informații Externe</a>
+        <a href="contact.php" class="nav-btn">Contact</a>
+        <?php if(isset($_SESSION['user_id'])): ?>
+            <a href="order.php" class="nav-btn">Comandă Transport</a>
+        <?php endif; ?>
+        <?php if($user_permission >= 2): ?>
+            <a href="statistics.php" class="nav-btn">Statistici</a>
+            <a href="import_export.php" class="nav-btn">Import/Export</a>
+        <?php endif; ?>
         <?php if($user_permission == 3): ?>
             <a href="users.php" class="nav-btn">Administrare utilizatori</a>
         <?php endif; ?>
@@ -49,11 +56,28 @@ if(isset($_SESSION['user_id'])){
 </div>
 
 <div class="main-content">
-    <h2>Bine ai venit!</h2>
-    <p>Aici va apărea prezentarea companiei.</p>
+    <h2>Bine ai venit la Black Shield Logistics!</h2>
+    <p>Servicii de transport securizat pentru clienți profesioniști.</p>
+
+    <div style="margin-top: 30px;">
+        <h3>🌟 Funcționalități disponibile:</h3>
+        <ul style="line-height: 2; font-size: 16px;">
+            <li>📰 <a href="news.php">Informații externe actualizate</a> - Știri, cursuri valutare, meteo</li>
+            <li>📧 <a href="contact.php">Formular de contact</a> - Trimite-ne un mesaj</li>
+            <?php if(isset($_SESSION['user_id'])): ?>
+                <li>🚚 <a href="order.php">Comandă transport</a> - Solicitați un transport securizat</li>
+            <?php endif; ?>
+            <?php if($user_permission >= 2): ?>
+                <li>📊 <a href="statistics.php">Statistici interactive</a> - Grafice și rapoarte</li>
+                <li>📤 <a href="import_export.php">Import/Export date</a> - Excel, PDF, Word</li>
+            <?php endif; ?>
+        </ul>
+    </div>
 
     <?php if($user_permission >= 1): ?>
-        <a href="descriere.php" class="btn">Vezi descrierea site-ului</a>
+        <div style="margin-top: 30px;">
+            <a href="descriere.php" class="btn">📖 Vezi descrierea completă a site-ului</a>
+        </div>
     <?php endif; ?>
 </div>
 </body>
