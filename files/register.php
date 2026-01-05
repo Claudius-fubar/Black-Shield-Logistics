@@ -31,8 +31,29 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $confirm    = $_POST['confirm_password'] ?? '';
     $user_type  = $_POST['user_type'] ?? 'base';
 
+    // Verificare reCAPTCHA
+    $recaptcha_response = $_POST['g-recaptcha-response'] ?? '';
+    
+    $recaptcha_secret = '6LdfoDMsAAAAAP5RY2r9LepxQBWsEvrAS-b-CxX_'; 
+    $verify_url = 'https://www.google.com/recaptcha/api/siteverify';
+
+    $ch = curl_init();
+    curl_setopt($ch, CURLOPT_URL, $verify_url);
+    curl_setopt($ch, CURLOPT_POST, true);
+    curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query([
+        'secret' => $recaptcha_secret,
+        'response' => $recaptcha_response,
+        'remoteip' => $_SERVER['REMOTE_ADDR']
+    ]));
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    $response_raw = curl_exec($ch);
+    curl_close($ch);
+    $response_data = json_decode($response_raw, true);
+
     // validari simple
-    if ($first_name === '' || $last_name === '' || !filter_var($email, FILTER_VALIDATE_EMAIL) || $password === '') {
+    if (empty($response_data['success']) || $response_data['success'] !== true) {
+        $error = "Te rugăm să confirmi că nu ești robot (reCAPTCHA).";
+    } elseif ($first_name === '' || $last_name === '' || !filter_var($email, FILTER_VALIDATE_EMAIL) || $password === '') {
         $error = "Completează toate câmpurile corect.";
     } elseif ($password !== $confirm) {
         $error = "Parolele nu coincid!";

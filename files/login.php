@@ -8,8 +8,30 @@ $error = '';
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $email = trim($_POST['email'] ?? '');
     $password = $_POST['password'] ?? '';
+    $recaptcha_response = $_POST['g-recaptcha-response'] ?? '';
 
-    if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+    // Verificare reCAPTCHA
+    
+    $recaptcha_secret = '6LdfoDMsAAAAAP5RY2r9LepxQBWsEvrAS-b-CxX_'; 
+    $verify_url = 'https://www.google.com/recaptcha/api/siteverify';
+
+    $ch = curl_init();
+    curl_setopt($ch, CURLOPT_URL, $verify_url);
+    curl_setopt($ch, CURLOPT_POST, true);
+    curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query([
+        'secret' => $recaptcha_secret,
+        'response' => $recaptcha_response,
+        'remoteip' => $_SERVER['REMOTE_ADDR']
+    ]));
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    $response_raw = curl_exec($ch);
+    curl_close($ch);
+
+    $response_data = json_decode($response_raw, true);
+
+    if (empty($response_data['success']) || $response_data['success'] !== true) {
+        $error = "Te rugăm să confirmi că nu ești robot (reCAPTCHA).";
+    } elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
         $error = "Email invalid.";
     } else {
         // prepared statement pentru siguranță
