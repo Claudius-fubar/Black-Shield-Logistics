@@ -3,7 +3,10 @@
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
 
-require __DIR__ . '/vendor/autoload.php';
+// Include PHPMailer classes manually since we don't have Composer
+require_once __DIR__ . '/PHPmailer/Exception.php';
+require_once __DIR__ . '/PHPmailer/PHPMailer.php';
+require_once __DIR__ . '/PHPmailer/SMTP.php';
 
 /**
  * send_mail_smtp
