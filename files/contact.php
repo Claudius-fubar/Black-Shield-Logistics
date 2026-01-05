@@ -155,6 +155,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             padding: 20px;
             border-radius: 8px;
             margin-top: 30px;
+            color: teal;
         }
         .contact-info h3 {
             margin-top: 0;
