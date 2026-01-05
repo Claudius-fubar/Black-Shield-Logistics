@@ -21,7 +21,7 @@ $success = false;
 
 // Export către Excel (CSV format compatibil cu Excel)
 if (isset($_GET['export']) && $_GET['export'] === 'excel') {
-    $query = "SELECT o.id, u.username, o.pickup_location, o.delivery_location, o.cargo_type, 
+    $query = "SELECT o.id, u.first_name, u.last_name, o.pickup_location, o.delivery_location, o.cargo_type, 
               o.cargo_weight, o.security_level, o.pickup_date, o.status, o.estimated_price, o.created_at
               FROM transport_orders o 
               JOIN users u ON o.user_id = u.id 
@@ -67,7 +67,7 @@ if (isset($_GET['export']) && $_GET['export'] === 'excel') {
         while ($row = $result->fetch_assoc()) {
             echo '<tr>';
             echo '<td>' . htmlspecialchars($row['id']) . '</td>';
-            echo '<td>' . htmlspecialchars($row['username']) . '</td>';
+            echo '<td>' . htmlspecialchars($row['first_name'] . ' ' . $row['last_name']) . '</td>';
             echo '<td>' . htmlspecialchars($row['pickup_location']) . '</td>';
             echo '<td>' . htmlspecialchars($row['delivery_location']) . '</td>';
             echo '<td>' . htmlspecialchars($row['cargo_type']) . '</td>';
@@ -92,7 +92,7 @@ if (isset($_GET['export']) && $_GET['export'] === 'excel') {
 if (isset($_GET['export']) && $_GET['export'] === 'pdf') {
     require_once 'pdf_generator.php';
     
-    $query = "SELECT o.id, u.username, o.pickup_location, o.delivery_location, o.cargo_type, 
+    $query = "SELECT o.id, u.first_name, u.last_name, o.pickup_location, o.delivery_location, o.cargo_type, 
               o.cargo_weight, o.security_level, o.pickup_date, o.status, o.estimated_price, o.created_at
               FROM transport_orders o 
               JOIN users u ON o.user_id = u.id 

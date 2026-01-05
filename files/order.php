@@ -14,11 +14,11 @@ $user_permission = 0;
 $user_email = '';
 $user_name = '';
 
-$result = $conn->query("SELECT permission_id, email, username FROM users WHERE id = $user_id");
+$result = $conn->query("SELECT permission_id, email, first_name, last_name FROM users WHERE id = $user_id");
 if($row = $result->fetch_assoc()){
     $user_permission = $row['permission_id'];
     $user_email = $row['email'];
-    $user_name = $row['username'];
+    $user_name = $row['first_name'] . ' ' . $row['last_name'];
 }
 
 $message = '';

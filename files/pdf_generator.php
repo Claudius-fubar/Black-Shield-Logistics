@@ -116,7 +116,7 @@ function generate_orders_pdf($orders) {
                 <?php foreach ($orders as $order): ?>
                 <tr>
                     <td><?php echo htmlspecialchars($order['id']); ?></td>
-                    <td><?php echo htmlspecialchars($order['username']); ?></td>
+                    <td><?php echo htmlspecialchars($order['first_name'] . ' ' . $order['last_name']); ?></td>
                     <td><?php echo htmlspecialchars($order['pickup_location']); ?></td>
                     <td><?php echo htmlspecialchars($order['delivery_location']); ?></td>
                     <td><?php echo htmlspecialchars($order['cargo_type']); ?></td>
@@ -183,7 +183,7 @@ function generate_orders_word($orders) {
                 <?php foreach ($orders as $order): ?>
                 <tr>
                     <td><?php echo htmlspecialchars($order['id']); ?></td>
-                    <td><?php echo htmlspecialchars($order['username']); ?></td>
+                    <td><?php echo htmlspecialchars($order['first_name'] . ' ' . $order['last_name']); ?></td>
                     <td><?php echo htmlspecialchars($order['pickup_location']); ?></td>
                     <td><?php echo htmlspecialchars($order['delivery_location']); ?></td>
                     <td><?php echo htmlspecialchars($order['cargo_type']); ?></td>
